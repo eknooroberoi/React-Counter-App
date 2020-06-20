@@ -11,31 +11,33 @@ We have to use class cpmponents for following reasons-
 However with react hooks, we can do all this without writing class components
 */
 
+//const { useState, useEffect } = require("react")
 
-import React, {Component, useState, useEffect} from 'react';
 
-//useState enables us to use state without writing class components
-//useState function returns 2 things 1)current state value(count) 2) function(setCount)- that will let us update state value
-//instead of setState we are using setCount to update count in state
-const App = () => {
-  const [count, setCount] = useState(0);
-  //useEffect updates every time state(count) updates/changes. Itruns automatically on state change
-  useEffect(() => {
-    document.title = `Clicked ${count} times`;
-  });
-  const increment = () => {
-    setCount(count + 1);
-  };
+// import React, {Component, useState, useEffect} from 'react';
 
-  return (
-          <div>
-            <h2>Counter App</h2>
-            <button onClick={increment}>
-              Clicked {count} times
-            </button>
-          </div>
-        );
-};
+// //useState enables us to use state without writing class components
+// //useState function returns 2 things 1)current state value(count) 2) function(setCount)- that will let us update state value
+// //instead of setState we are using setCount to update count in state
+// const App = () => {
+//   const [count, setCount] = useState(0);
+//   //useEffect updates every time state(count) updates/changes. Itruns automatically on state change
+//   useEffect(() => {
+//     document.title = `Clicked ${count} times`;
+//   });
+//   const increment = () => {
+//     setCount(count + 1);
+//   };
+
+//   return (
+//           <div>
+//             <h2>Counter App</h2>
+//             <button onClick={increment}>
+//               Clicked {count} times
+//             </button>
+//           </div>
+//         );
+// };
 
 
 
@@ -83,6 +85,48 @@ const App = () => {
 
 
 
+
+//write counter app using hooks
+// export default App;
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////NEWS APP USING HOOKS////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+import React, {Component, useState, useEffect} from 'react';
+const App =() => {
+  //state
+  //by default news array is []
+  const [news, setNews] = useState([])
+  //fetch news from hack and news Api
+  const fetchNews = () => {
+    fetch('http://hn.algolia.com/api/v1/search?query=react')
+    .then(result => result.json())
+    .then(data => setNews(data.hits))
+    .catch(error => console.log(error));
+  };
+  // to get news we need to execute this method, it will not run by itself
+  useEffect(() => {
+    fetchNews()
+  })
+  return (
+    <div>
+      <h2>News</h2>
+      {news.map((n, i) => (
+        <p key={i}>{n.title}</p>
+        ))}
+    </div>
+  );
+};
 
 //write counter app using hooks
 export default App;
